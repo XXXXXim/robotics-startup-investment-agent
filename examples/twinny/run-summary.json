@@ -1,0 +1,35 @@
+{
+  "trace_id": "20261013-173313-7b16a9",
+  "company": "트위니",
+  "status": "completed",
+  "step_count": 8,
+  "revision_count": 0,
+  "attempts": {
+    "company_team": 1,
+    "technology": 1,
+    "market": 3,
+    "investment": 1
+  },
+  "route_sequence": [
+    "intake",
+    "researcher",
+    "market_researcher",
+    "market_researcher",
+    "market_researcher",
+    "investment_analyst",
+    "writer",
+    "evaluator",
+    "FINISH"
+  ],
+  "rework_dispatches": 2,
+  "evidence_count": 35,
+  "eval_passed": true,
+  "node_status": {
+    "researcher": "ok",
+    "market_researcher": "ok",
+    "investment_analyst": "ok",
+    "writer": "ok",
+    "evaluator": "ok"
+  },
+  "last_error": null
+}

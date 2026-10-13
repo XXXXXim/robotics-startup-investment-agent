@@ -1,0 +1,10 @@
+.venv/
+.env
+.cache/
+__pycache__/
+.pytest_cache/
+reports/
+outputs/reports/
+outputs/runs/
+.DS_Store
+outputs/retrieval_eval.json

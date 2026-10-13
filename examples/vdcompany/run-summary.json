@@ -1,0 +1,39 @@
+{
+  "trace_id": "20261013-170838-ce2c8c",
+  "company": "브이디컴퍼니",
+  "status": "completed",
+  "step_count": 12,
+  "revision_count": 0,
+  "attempts": {
+    "company_team": 1,
+    "technology": 3,
+    "market": 3,
+    "investment": 3
+  },
+  "route_sequence": [
+    "intake",
+    "researcher",
+    "researcher",
+    "researcher",
+    "market_researcher",
+    "market_researcher",
+    "market_researcher",
+    "investment_analyst",
+    "investment_analyst",
+    "investment_analyst",
+    "writer",
+    "evaluator",
+    "FINISH"
+  ],
+  "rework_dispatches": 6,
+  "evidence_count": 58,
+  "eval_passed": true,
+  "node_status": {
+    "researcher": "ok",
+    "market_researcher": "partial",
+    "investment_analyst": "ok",
+    "writer": "ok",
+    "evaluator": "ok"
+  },
+  "last_error": null
+}
