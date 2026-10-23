@@ -83,6 +83,7 @@ python main.py "브이디컴퍼니 투자 가능성 평가해줘"
 - **Report**: Markdown → PDF (PyMuPDF): 표지, 각주형 인용, 한글 어절 단위 줄바꿈, 쪽 나눔 제어
 - **Observability**: LangSmith, 로컬 결정 로그(`decisions.jsonl`)
 - **Test**: pytest (가짜 LLM으로 라우팅·재작업·평가 루프·종료·스코어카드·파서 검증, API 키 불필요)
+- **AI 개발 워크플로**: 에이전트 공통 규칙 `AGENTS.md`(Claude Code·Codex·Gemini가 같이 읽음), PR마다 Claude + Gemini 교차 리뷰, 이슈에 `@claude`로 작업 요청
 
 ## Quick Start
 

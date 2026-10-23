@@ -1,0 +1,41 @@
+# 이슈나 PR 댓글에 @claude 라고 쓰면 Claude가 답하거나 코드를 고쳐 PR을 올린다.
+# 필요한 준비: Claude GitHub App 설치 + 레포 Secret CLAUDE_CODE_OAUTH_TOKEN (`claude setup-token`으로 발급, Max 구독 사용량으로 동작)
+# Secret이 없으면 아무것도 하지 않고 넘어간다.
+name: Claude
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  issues:
+    types: [opened]
+
+jobs:
+  claude:
+    if: >-
+      contains(github.event.comment.body, '@claude') ||
+      (github.event_name == 'issues' && contains(format('{0} {1}', github.event.issue.title, github.event.issue.body), '@claude'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    env:
+      HAS_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+    steps:
+      - name: Secret 확인
+        if: env.HAS_TOKEN != 'true'
+        run: echo "CLAUDE_CODE_OAUTH_TOKEN Secret이 없어서 건너뜁니다."
+      - uses: actions/checkout@v4
+        if: env.HAS_TOKEN == 'true'
+        with:
+          fetch-depth: 1
+      - uses: anthropics/claude-code-action@v1
+        if: env.HAS_TOKEN == 'true'
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: "--max-turns 20"
