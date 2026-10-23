@@ -1,5 +1,7 @@
 # Robotics Startup Investment Agent
 
+[![tests](https://github.com/XXXXXim/robotics-startup-investment-agent/actions/workflows/tests.yml/badge.svg)](https://github.com/XXXXXim/robotics-startup-investment-agent/actions/workflows/tests.yml)
+
 **DART 감사보고서와 공개 자료로 국내 Physical AI·로보틱스 비상장 스타트업의 투자 검토 보고서를 쓰는 LangGraph Supervisor 멀티 에이전트**
 
 > 회사 이름 하나를 넣으면, 근거를 모으고 → 충분한지 스스로 판단하고 → 부족하면 다시 조사하고 → 보고서를 쓴 뒤 → 품질 평가에 통과할 때까지 고쳐서 PDF로 내보낸다.
