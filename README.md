@@ -74,6 +74,42 @@ python main.py "브이디컴퍼니 투자 가능성 평가해줘"
 
 두 기업 모두 실제 OpenDART 감사보고서와 공개 자료로 실행한 결과다. 같은 코드라도 기업마다 자료 상황이 달라 Supervisor의 재작업 경로가 달라진다.
 
+## Eval
+
+"보고서가 잘 나왔다"를 눈대중이 아니라 **세 층(검색 → 실행 → 보고서)으로 나눠 숫자로 확인**한다.
+
+| 층 | 무엇을 재나 | 방법 | 스크립트 |
+|---|---|---|---|
+| 검색 | 정답 문서를 위로 올리는가 | 정답 문서를 아는 10문항, Hit Rate@5 · MRR | `eval_retrieval.py`(하이브리드, 키 필요) · `eval_offline.py`(키워드 단독, 키 불필요) |
+| 실행 | 에이전트가 스스로 근거를 보강하고 끝까지 가는가 | 실행 로그(`decisions.jsonl`)에서 재작업 · 근거 수 · 품질평가 통과 | `eval_offline.py` |
+| 보고서 | 근거 있는 문장만 쓰고, 중립적이고, 형식을 지키는가 | Evaluator 규칙 재검사 + **문장 단위 인용률** | `eval_offline.py` |
+
+```bash
+python scripts/eval_offline.py      # API 키 없이 → outputs/eval_offline.json
+python scripts/eval_retrieval.py    # 하이브리드 검색 (OPENAI_API_KEY 필요)
+```
+
+**결과 (예시 실행 2건, 2026-11)**
+
+| 항목 | 트위니 | 브이디컴퍼니 |
+|---|:---:|:---:|
+| Supervisor 단계 / 재작업 지시 | 8 / 2 | 12 / 6 |
+| 수집 근거 / 보고서에 인용된 근거 | 35 / 15 | 58 / 26 |
+| 품질 평가 (규칙 + LLM Judge) | 1회 만에 통과 | 1회 만에 통과 |
+| 필수 목차 누락 · 금지 표현(매수·추천·유망 등) | 0 · 0 | 0 · 0 |
+| PDF 쪽수 (상한 10장) | 4장 | 4장 |
+| **근거 [E#]가 붙은 문장 비율** | **91%** (32/35) | **90%** (17/19) |
+
+인용이 없는 문장은 면책 문구("최종 투자 판단은 투자심의위원회의 몫"), 스코어카드 설명 줄뿐이었다 — **사실을 주장하는 문장은 모두 근거가 붙어 있다.**
+
+검색 기준선(키워드 bigram 단독, 벡터 없음): **Hit Rate@5 1.00 · MRR 0.950** (10문항 중 9문항 1위, 1문항 2위).
+
+**해석과 한계 — 숫자를 과신하지 않기**
+- 재작업이 많다고 나쁜 게 아니다. 브이디컴퍼니는 공개 자료가 적어 기술·시장·투자 근거를 각각 다시 모으라는 지시가 6번 나갔고, 그 결과 근거가 58개로 늘어난 뒤에야 보고서를 썼다. **"부족하면 다시 조사한다"는 설계가 실제로 작동한 증거**로 본다.
+- 문서 풀이 10개 문서(11청크)로 작아서 Hit Rate@5는 거의 포화된다. 의미 있는 지표는 **1위 적중(9/10)과 MRR**이고, 문서가 늘어날수록 키워드 단독은 떨어질 것이다. 그래서 하이브리드(`eval_retrieval.py`) 점수와 나란히 보는 기준선으로 쓴다.
+- 품질 평가 통과는 같은 시스템의 Evaluator가 내린 판정이라 **스스로 채점한 결과**다. 이를 보완하려고 Judge 모델을 생성 모델과 분리할 수 있게 했고(`config`), 규칙 검사는 LLM 없이 결정론적으로 다시 돌린다.
+- `tests/test_eval_offline.py`가 이 기준(누락 절 0 · 금지 표현 0 · 인용률 ≥ 85% · PDF ≤ 10장 · 검색 MRR ≥ 0.9)을 CI에서 지킨다.
+
 ## Tech Stack
 
 - **Orchestration**: LangGraph (Supervisor + ReAct 서브그래프, `add_conditional_edges`, InMemorySaver)
@@ -91,9 +127,10 @@ python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env          # OPENAI_API_KEY, OPENDART_API_KEY (LangSmith는 선택)
 
-pytest -q                                  # API 키 없이 9개 테스트
+pytest -q                                  # API 키 없이 12개 테스트
 python main.py "트위니 투자 가능성 평가해줘"   # 실제 실행
-python scripts/eval_retrieval.py           # 검색 품질 (Hit Rate@5, MRR)
+python scripts/eval_offline.py             # 오프라인 평가 (검색 기준선·실행 로그·보고서 인용률, 키 불필요)
+python scripts/eval_retrieval.py           # 하이브리드 검색 품질 (Hit Rate@5, MRR)
 ```
 
 새 기업을 평가하려면 `data/docs/companies/<DART 회사명>/`에 그 기업의 공개 자료(PDF 또는 출처가 적힌 수집 메모)를 넣는다.
@@ -121,7 +158,7 @@ python scripts/eval_retrieval.py           # 검색 품질 (Hit Rate@5, MRR)
 │   └── pdf_export.py       # 보고서 PDF
 ├── data/docs/              # 문서 풀 (industry/, companies/<회사명>/)
 ├── examples/               # 실제 실행 결과 (보고서 PDF·md, 결정 로그)
-├── scripts/eval_retrieval.py
+├── scripts/eval_retrieval.py, eval_offline.py
 ├── tests/
 ├── backend/app.py          # FastAPI SSE API (선택)
 └── main.py                 # CLI
