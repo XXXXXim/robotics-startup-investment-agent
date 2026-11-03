@@ -1,0 +1,177 @@
+{
+  "retrieval_keyword_baseline": {
+    "method": "bigram keyword only",
+    "k": 5,
+    "cases": 10,
+    "chunks": 11,
+    "hit_rate_at_k": 1.0,
+    "mrr": 0.95,
+    "details": [
+      {
+        "query": "2024년 전 세계 산업용 로봇 설치 대수",
+        "answer": "ifr_world_robotics_2025_industrial.md",
+        "rank": 1,
+        "top": [
+          "ifr_world_robotics_2025_industrial.md",
+          "ifr_world_robotics_2025_service.md",
+          "robotics_market_layer_map_2026.md"
+        ]
+      },
+      {
+        "query": "산업용 로봇 신규 설치 지역별 비중 아시아 유럽",
+        "answer": "ifr_world_robotics_2025_industrial.md",
+        "rank": 1,
+        "top": [
+          "ifr_world_robotics_2025_industrial.md",
+          "ifr_world_robotics_2025_service.md",
+          "robotics_market_layer_map_2026.md"
+        ]
+      },
+      {
+        "query": "운송·물류 서비스 로봇 판매 대수와 증가율",
+        "answer": "ifr_world_robotics_2025_service.md",
+        "rank": 1,
+        "top": [
+          "ifr_world_robotics_2025_service.md",
+          "venturesquare_2023_spbt.md",
+          "robotics_market_layer_map_2026.md"
+        ]
+      },
+      {
+        "query": "RaaS 로봇 구독 서비스 성장률",
+        "answer": "ifr_world_robotics_2025_service.md",
+        "rank": 2,
+        "top": [
+          "robotics_market_layer_map_2026.md",
+          "ifr_world_robotics_2025_service.md",
+          "unicornfactory_2024_heybob.md"
+        ]
+      },
+      {
+        "query": "글로벌 물류 로봇 시장 규모 전망 2035",
+        "answer": "robotics_market_layer_map_2026.md",
+        "rank": 1,
+        "top": [
+          "robotics_market_layer_map_2026.md",
+          "hellot_2023_interview.md",
+          "kidd_2026_preipo.md"
+        ]
+      },
+      {
+        "query": "AGV에서 AMR로 전환하는 물류 로봇 기술 흐름",
+        "answer": "robotics_market_layer_map_2026.md",
+        "rank": 1,
+        "top": [
+          "robotics_market_layer_map_2026.md",
+          "twinny_product_brochure.md",
+          "ifr_world_robotics_2025_service.md"
+        ]
+      },
+      {
+        "query": "나르고 오더피킹 최고 속도와 적재 중량",
+        "answer": "twinny_product_brochure.md",
+        "rank": 1,
+        "top": [
+          "twinny_product_brochure.md",
+          "hellot_2023_interview.md",
+          "robotics_market_layer_map_2026.md"
+        ]
+      },
+      {
+        "query": "트위니 ISO13482 안전 인증과 기업부설연구소",
+        "answer": "twinny_product_brochure.md",
+        "rank": 1,
+        "top": [
+          "twinny_product_brochure.md",
+          "hellot_2023_interview.md",
+          "ifr_world_robotics_2025_service.md"
+        ]
+      },
+      {
+        "query": "트위니 프리IPO 투자 유치 금액과 투자자",
+        "answer": "kidd_2026_preipo.md",
+        "rank": 1,
+        "top": [
+          "kidd_2026_preipo.md",
+          "hellot_2023_interview.md",
+          "smarttoday_2022_investment.md"
+        ]
+      },
+      {
+        "query": "오더피킹 로봇 공급 업체 수와 미국 진출 계획",
+        "answer": "hellot_2023_interview.md",
+        "rank": 1,
+        "top": [
+          "hellot_2023_interview.md",
+          "smarttoday_2022_investment.md",
+          "twinny_product_brochure.md"
+        ]
+      }
+    ]
+  },
+  "runs": [
+    {
+      "company": "트위니",
+      "steps": 8,
+      "rework_dispatches": 2,
+      "attempts": {
+        "company_team": 1,
+        "technology": 1,
+        "market": 3,
+        "investment": 1
+      },
+      "evidence_count": 35,
+      "eval_rounds": 1,
+      "eval_passed_first_try": true,
+      "status": "completed"
+    },
+    {
+      "company": "브이디컴퍼니",
+      "steps": 12,
+      "rework_dispatches": 6,
+      "attempts": {
+        "company_team": 1,
+        "technology": 3,
+        "market": 3,
+        "investment": 3
+      },
+      "evidence_count": 58,
+      "eval_rounds": 1,
+      "eval_passed_first_try": true,
+      "status": "completed"
+    }
+  ],
+  "reports": [
+    {
+      "company": "twinny",
+      "missing_sections": [],
+      "short_sections": [],
+      "banned_expressions": [],
+      "pdf_pages": 4,
+      "max_pdf_pages": 10,
+      "sentences": 35,
+      "cited_sentence_rate": 0.914,
+      "unique_evidence_cited": 15,
+      "uncited_examples": [
+        "최종 투자 판단은 투자심의위원회의 몫이다.",
+        "> 점수는 수집된 근거만으로 매긴 평가 보조 지표이며 투자 결정이 아니다.",
+        "평가에 반영된 가중치는 100 중 80이다."
+      ]
+    },
+    {
+      "company": "vdcompany",
+      "missing_sections": [],
+      "short_sections": [],
+      "banned_expressions": [],
+      "pdf_pages": 4,
+      "max_pdf_pages": 10,
+      "sentences": 19,
+      "cited_sentence_rate": 0.895,
+      "unique_evidence_cited": 26,
+      "uncited_examples": [
+        "> 점수는 수집된 근거만으로 매긴 평가 보조 지표이며 투자 결정이 아니다.",
+        "평가에 반영된 가중치는 100 중 100이다."
+      ]
+    }
+  ]
+}
